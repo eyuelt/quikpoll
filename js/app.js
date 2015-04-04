@@ -382,6 +382,7 @@ function ReceiveUpdate(doc) {
 
 //show the poll form
 function ShowQuestionForm() {
+    alert("hello");
     var poll_question = myDoc.poll.question.replace(/\r\n|\r|\n/g,'<br>');
     $("#app").html("");
     $("#app").append('<div id="poll_question">'+poll_question+'</div>');
@@ -393,6 +394,33 @@ function ShowQuestionForm() {
     }
     $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
 }
+//function ShowQuestionForm() {
+//    var poll_question = myDoc.poll.question.replace(/\r\n|\r|\n/g,'<br>');
+//    $("#app").html("");
+//    $("#app").append('<div id="poll_question">'+poll_question+'</div>');
+//
+//    for(var i = 0; i < myDoc.pollCounts.length; i++) {
+//        var letter = String.fromCharCode(65 + i);
+//        $("#app").append($('<div class="poll_answer" id="submitquestion'+i+'">'+letter+': ' + myDoc.poll['response'+i] + '</div>'));
+//        $("#submitquestion"+i).fastClick(functionForResponse(i));
+//    }
+//    //Eyuel
+//    $("#app").append($('<div class="poll_answer" id="#customresponse">Custom Response 2</div>'));
+//    $("#customresponse").fastClick(functionForCustomResponse());
+//    $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
+//}
+//function functionForCustomResponse(response) {
+//    return function() {
+//        $("#customresponse")[0].style.backgroundColor = "red";
+//        //if(Omlet.getIdentity().principal in myDoc.voters) {
+//        //    var voter = myDoc.voters[Omlet.getIdentity().principal];
+//        //    showPollResults(voter.vote);
+//        //} else {
+//        //    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
+//        //    showPollResults(response);
+//        //}
+//    };
+//}
 
 //show the poll creation form
 function ShowEmptyQuestionForm() {

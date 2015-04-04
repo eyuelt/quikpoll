@@ -397,6 +397,7 @@ function ShowQuestionForm() {
 function ShowEmptyQuestionForm() {
     var question = i18n.t('Question');
     var create = i18n.t('Create');
+    create += "..."
 
     $("#app").html("");
     $("#app").append('<img src="images/EGG-1.png" class="omlet_first"></img><p>'+question+':</p><div><textarea class="form_format" style="height:90px;" id="question"></textarea></div><div id="responses"></div><div id="moreResponses"><img src="images/option.png" weight="270px" height="32px"></img> </div><div id="submit">'+create+'</div></div>');

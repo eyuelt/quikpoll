@@ -391,7 +391,22 @@ function ShowQuestionForm() {
         $("#app").append('<div class="poll_answer" id="submitquestion'+i+'">'+letter+': ' + myDoc.poll['response'+i] + '</div>');
         $("#submitquestion"+i).fastClick(functionForResponse(i));
     }
+    //Eyuel
+    $("#app").append('div class="poll_answer" id="#customresponse">Custom Response</div>');
+    $("#customresponse").fastClick(functionForCustomResponse());
     $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
+}
+function functionForCustomResponse(response) {
+    return function() {
+        $("#customresponse")[0].style.backgroundColor = "red";
+        //if(Omlet.getIdentity().principal in myDoc.voters) {
+        //    var voter = myDoc.voters[Omlet.getIdentity().principal];
+        //    showPollResults(voter.vote);
+        //} else {
+        //    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
+        //    showPollResults(response);
+        //}
+    };
 }
 
 //show the poll creation form

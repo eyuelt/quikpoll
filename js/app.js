@@ -24,6 +24,7 @@ function watchDocument(docref, OnUpdate) {
 }
 
 function initDocument() {
+    console.log("initDocument")
     if (Omlet.isInstalled()) {
         documentApi = Omlet.document;
         _loadDocument();
@@ -92,6 +93,13 @@ function Initialize(old, params) {
 // Any other time we call update, we're not passing in the full doc, just a set of params
 // for updating the old doc
 function Update(old, params) {
+    if (params["newresponse"]) {
+        old.poll['response'+params["option"]] = params["newresponse"];
+        var responses = JSON.parse(old.poll["responses"]);
+        responses.push(params["newresponse"]);
+        old.poll["responses"] = JSON.stringify(responses);
+    }
+    if (params["option"] >= old.pollCounts.length) old.pollCounts[params["option"]] = 0;
     old.pollCounts[params["option"]]++;
     var time = new Date().getTime();
     old.voters[params.voter.principal] = {"name":params.voter.name, "vote":params["option"], "time":time};
@@ -182,10 +190,10 @@ function sharePoll() {
 // original vote was
 function functionForResponse(response) {
     return function() {
-    	if(Omlet.getIdentity().principal in myDoc.voters) {
-	    var voter = myDoc.voters[Omlet.getIdentity().principal];
-	    showPollResults(voter.vote);
-	} else {
+        if(Omlet.getIdentity().principal in myDoc.voters) {
+            var voter = myDoc.voters[Omlet.getIdentity().principal];
+            showPollResults(voter.vote);
+        } else {
             documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
             showPollResults(response);
         }
@@ -287,10 +295,11 @@ function showJustPollResults() {
 }
 
 // show the results after having voted
-function showPollResults(response) { 
-    var answer = myDoc.poll['response'+response];
+function showPollResults(response, doc) { 
+    var _myDoc = doc || myDoc;
+    var answer = _myDoc.poll['response'+response];
     var answerLetter = String.fromCharCode(65 + response);
-    var pollCounts = myDoc.pollCounts;
+    var pollCounts = _myDoc.pollCounts;
     var response_text = i18n.t("Response");
     var responses_text = i18n.t("Responses");
     var share_vote = i18n.t("Share_vote");
@@ -299,8 +308,8 @@ function showPollResults(response) {
     var quickpoll_response = i18n.t("QuickPoll_response");
     var i_vote = i18n.t("I_vote");
     var poll_response_text = i18n.t("Poll_response");
-    //var ks = myDoc.poll.question.val().split("\n");
-    var poll_question = myDoc.poll.question.replace(/\r\n|\r|\n/g,'<br>');
+    //var ks = _myDoc.poll.question.val().split("\n");
+    var poll_question = _myDoc.poll.question.replace(/\r\n|\r|\n/g,'<br>');
     //alert(poll_question);
 
     var totalVotes = 0;
@@ -314,12 +323,12 @@ function showPollResults(response) {
     $("#app").append('<img src="images/EGG-3.png" class="omlet_third"></img><div id="poll_question">'+poll_question+'</div>');
 
     for(var i = 0; i < pollCounts.length; i++) {
-        var response = myDoc.poll['response'+i];
+        var response = _myDoc.poll['response'+i];
         var letter = String.fromCharCode(65 + i);
         var percent = pollCounts[i] / totalVotes;
         var width = (percent > 0) ? percent * 200 : 1;
 
-        if(myDoc.creator.principal == Omlet.getIdentity().principal) {
+        if(_myDoc.creator.principal == Omlet.getIdentity().principal) {
             $("#app").append('<div class="result_row" id="result_row_'+i+'"><div class="result_option">'+letter+' </div><div class="result_bar" id="result_bar_'+i+'" style="width:'+width+'"></div><div class="result_count" id="result_count_'+i+'">' + pollCounts[i] + '</div><div class="clear"></div><div class="result_answer">'+response+'</div></div>');
 
             $("#app").append('<div class="voter_list" id="voter_list_'+i+'"></div>');
@@ -327,8 +336,8 @@ function showPollResults(response) {
             var toggleFunction = getToggleFunction(i);
             $("#result_row_"+i).fastClick(toggleFunction);
 
-            for(var principal in myDoc.voters) {
-                var voter = myDoc.voters[principal];
+            for(var principal in _myDoc.voters) {
+                var voter = _myDoc.voters[principal];
                 if(voter.vote == i) {
                     $("#voter_list_"+i).append('<div class="voter_list_entry">'+voter.name+'</div>');   
                 }
@@ -380,6 +389,18 @@ function ReceiveUpdate(doc) {
 }
 
 //show the poll form
+//function ShowQuestionForm() {
+//    var poll_question = myDoc.poll.question.replace(/\r\n|\r|\n/g,'<br>');
+//    $("#app").html("");
+//    $("#app").append('<div id="poll_question">'+poll_question+'</div>');
+//
+//    for(var i = 0; i < myDoc.pollCounts.length; i++) {
+//        var letter = String.fromCharCode(65 + i);
+//        $("#app").append('<div class="poll_answer" id="submitquestion'+i+'">'+letter+': ' + myDoc.poll['response'+i] + '</div>');
+//        $("#submitquestion"+i).fastClick(functionForResponse(i));
+//    }
+//    $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
+//}
 function ShowQuestionForm() {
     var poll_question = myDoc.poll.question.replace(/\r\n|\r|\n/g,'<br>');
     $("#app").html("");
@@ -387,10 +408,35 @@ function ShowQuestionForm() {
 
     for(var i = 0; i < myDoc.pollCounts.length; i++) {
         var letter = String.fromCharCode(65 + i);
-        $("#app").append('<div class="poll_answer" id="submitquestion'+i+'">'+letter+': ' + myDoc.poll['response'+i] + '</div>');
+        $("#app").append($('<div class="poll_answer" id="submitquestion'+i+'">'+letter+': ' + myDoc.poll['response'+i] + '</div>'));
         $("#submitquestion"+i).fastClick(functionForResponse(i));
     }
+    //Eyuel
+    $("#app").append($('<div class="poll_answer" id="customresponse" contenteditable>Custom Response</div>'));
+    $("#customresponse").fastClick(functionForCustomResponse());
     $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
+}
+function functionForCustomResponse() {
+    return function() {
+        if(Omlet.getIdentity().principal in myDoc.voters) {
+            var voter = myDoc.voters[Omlet.getIdentity().principal];
+            showPollResults(voter.vote);
+        } else {
+            $("#customresponse").text("");
+            $("#customresponse").attr("contenteditable", "");
+            $("#customresponse").attr("onblur", "customResponseDone()");
+        }
+    };
+}
+function customResponseDone() {
+    var text = $("#customresponse").text();
+    var response = myDoc.pollCounts.length;
+    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity(), "newresponse":text }, function() {
+        documentApi.get(myDocId, function(doc) {
+            showPollResults(response, doc);
+            ReceiveUpdate();
+        });
+    });
 }
 
 //show the poll creation form

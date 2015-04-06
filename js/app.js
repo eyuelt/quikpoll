@@ -406,13 +406,15 @@ function ShowQuestionForm() {
     }
     //Eyuel
     $("#app").append($('<div class="poll_answer" id="customresponse" contenteditable>Custom Response</div>'));
-    //$("#customresponse").fastClick(functionForCustomResponse());
+    $("#customresponse").fastClick(functionForCustomResponse());
     $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
 }
 function functionForCustomResponse() {
     return function() {
         alert("customResponse");
-        $("#customresponse")[0].style.backgroundColor = "red";
+        var resp = $("#customresponse");
+        resp.val("");
+        resp.attr("contenteditable", "");
         //if(Omlet.getIdentity().principal in myDoc.voters) {
         //    var voter = myDoc.voters[Omlet.getIdentity().principal];
         //    showPollResults(voter.vote);

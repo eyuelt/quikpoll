@@ -439,10 +439,10 @@ function customResponseDone() {
    // responses.push(text);
    // myDoc.poll["responses"] = JSON.stringify(responses); //
     documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity(), "newresponse":text }, function() {
-    alert("yo: " + JSON.stringify(myDoc));
+        alert("yo: " + JSON.stringify(myDoc));
         documentApi.get(myDocId, function(doc) {
-    alert("yo1: " + JSON.stringify(myDoc));
-    alert("yo2: " + JSON.stringify(doc));
+            alert("yo1: " + JSON.stringify(myDoc));
+            alert("yo2: " + JSON.stringify(doc));
             showPollResults(response);
             ReceiveUpdate();
         });

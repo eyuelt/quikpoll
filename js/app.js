@@ -295,11 +295,12 @@ function showJustPollResults() {
 }
 
 // show the results after having voted
-function showPollResults(response) { 
+function showPollResults(response, doc) { 
+    var _myDoc = doc || myDoc;
     alert("showresults: " + response);
-    var answer = myDoc.poll['response'+response];
+    var answer = _myDoc.poll['response'+response];
     var answerLetter = String.fromCharCode(65 + response);
-    var pollCounts = myDoc.pollCounts;
+    var pollCounts = _myDoc.pollCounts;
     var response_text = i18n.t("Response");
     var responses_text = i18n.t("Responses");
     var share_vote = i18n.t("Share_vote");
@@ -308,8 +309,8 @@ function showPollResults(response) {
     var quickpoll_response = i18n.t("QuickPoll_response");
     var i_vote = i18n.t("I_vote");
     var poll_response_text = i18n.t("Poll_response");
-    //var ks = myDoc.poll.question.val().split("\n");
-    var poll_question = myDoc.poll.question.replace(/\r\n|\r|\n/g,'<br>');
+    //var ks = _myDoc.poll.question.val().split("\n");
+    var poll_question = _myDoc.poll.question.replace(/\r\n|\r|\n/g,'<br>');
     //alert(poll_question);
 
     var totalVotes = 0;
@@ -323,12 +324,12 @@ function showPollResults(response) {
     $("#app").append('<img src="images/EGG-3.png" class="omlet_third"></img><div id="poll_question">'+poll_question+'</div>');
 
     for(var i = 0; i < pollCounts.length; i++) {
-        var response = myDoc.poll['response'+i];
+        var response = _myDoc.poll['response'+i];
         var letter = String.fromCharCode(65 + i);
         var percent = pollCounts[i] / totalVotes;
         var width = (percent > 0) ? percent * 200 : 1;
 
-        if(myDoc.creator.principal == Omlet.getIdentity().principal) {
+        if(_myDoc.creator.principal == Omlet.getIdentity().principal) {
             $("#app").append('<div class="result_row" id="result_row_'+i+'"><div class="result_option">'+letter+' </div><div class="result_bar" id="result_bar_'+i+'" style="width:'+width+'"></div><div class="result_count" id="result_count_'+i+'">' + pollCounts[i] + '</div><div class="clear"></div><div class="result_answer">'+response+'</div></div>');
 
             $("#app").append('<div class="voter_list" id="voter_list_'+i+'"></div>');
@@ -336,8 +337,8 @@ function showPollResults(response) {
             var toggleFunction = getToggleFunction(i);
             $("#result_row_"+i).fastClick(toggleFunction);
 
-            for(var principal in myDoc.voters) {
-                var voter = myDoc.voters[principal];
+            for(var principal in _myDoc.voters) {
+                var voter = _myDoc.voters[principal];
                 if(voter.vote == i) {
                     $("#voter_list_"+i).append('<div class="voter_list_entry">'+voter.name+'</div>');   
                 }
@@ -426,6 +427,13 @@ function functionForCustomResponse() {
             $("#customresponse").text("");
             $("#customresponse").attr("contenteditable", "");
             $("#customresponse").attr("onblur", "customResponseDone()");
+            $(function(){
+                 $("#customresponse").keypress(function (e) {
+                     if (e.keyCode == 13) {
+                         alert('You pressed enter!');
+                     }
+                 });
+            });
         }
     };
 }
@@ -443,7 +451,7 @@ function customResponseDone() {
         documentApi.get(myDocId, function(doc) {
             alert("yo1: " + JSON.stringify(myDoc));
             alert("yo2: " + JSON.stringify(doc));
-            showPollResults(response);
+            showPollResults(response, doc);
             ReceiveUpdate();
         });
     });

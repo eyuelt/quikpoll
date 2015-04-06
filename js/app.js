@@ -183,11 +183,10 @@ function sharePoll() {
 // original vote was
 function functionForResponse(response) {
     return function() {
-        alert("regular response");
-    	if(Omlet.getIdentity().principal in myDoc.voters) {
-	    var voter = myDoc.voters[Omlet.getIdentity().principal];
-	    showPollResults(voter.vote);
-	} else {
+        if(Omlet.getIdentity().principal in myDoc.voters) {
+            var voter = myDoc.voters[Omlet.getIdentity().principal];
+            showPollResults(voter.vote);
+        } else {
             documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
             showPollResults(response);
         }
@@ -411,22 +410,23 @@ function ShowQuestionForm() {
 }
 function functionForCustomResponse() {
     return function() {
-        alert("customResponse");
-        var resp = $("#customresponse");
-        alert("1");
-        resp.text("");
-        alert("2");
-        resp.html("");
-        alert("3");
-        resp.attr("contenteditable", "");
         //if(Omlet.getIdentity().principal in myDoc.voters) {
         //    var voter = myDoc.voters[Omlet.getIdentity().principal];
         //    showPollResults(voter.vote);
         //} else {
-        //    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
-        //    showPollResults(response);
+        alert("customResponse");
+        $("#customresponse").text("");
+        $("#customresponse").attr("contenteditable", "");
+        $("#customresponse").attr("onblur", "dothis()");
         //}
     };
+}
+function dothis() {
+        alert("dothis");
+    var num = myDoc.pollCounts.length;
+    myDoc.poll['response'+num] = "CUSTOM RESPONSE";
+    //    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
+    //    showPollResults(response);
 }
 
 //show the poll creation form

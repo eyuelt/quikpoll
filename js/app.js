@@ -289,6 +289,7 @@ function showJustPollResults() {
 
 // show the results after having voted
 function showPollResults(response) { 
+    alert("showresults: " + response);
     var answer = myDoc.poll['response'+response];
     var answerLetter = String.fromCharCode(65 + response);
     var pollCounts = myDoc.pollCounts;
@@ -425,7 +426,7 @@ function customResponseDone() {
     alert("customResponseDone");
     var response = myDoc.pollCounts.length;
     myDoc.pollCounts[response] = 10;
-    myDoc.poll['response'+response] = $("#customresponse").text("");
+    myDoc.poll['response'+response] = "CUSTOM RESPONSE";//$("#customresponse").text();
     //myDoc.poll['response'+response] = $("#customresponse").text("");
     documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
     showPollResults(response);

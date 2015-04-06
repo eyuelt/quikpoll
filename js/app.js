@@ -410,15 +410,15 @@ function ShowQuestionForm() {
 }
 function functionForCustomResponse() {
     return function() {
-        //if(Omlet.getIdentity().principal in myDoc.voters) {
-        //    var voter = myDoc.voters[Omlet.getIdentity().principal];
-        //    showPollResults(voter.vote);
-        //} else {
-        alert("customResponse");
-        $("#customresponse").text("");
-        $("#customresponse").attr("contenteditable", "");
-        $("#customresponse").attr("onblur", "customResponseDone()");
-        //}
+        if(Omlet.getIdentity().principal in myDoc.voters) {
+            var voter = myDoc.voters[Omlet.getIdentity().principal];
+            showPollResults(voter.vote);
+        } else {
+            alert("customResponse");
+            $("#customresponse").text("");
+            $("#customresponse").attr("contenteditable", "");
+            $("#customresponse").attr("onblur", "customResponseDone()");
+        }
     };
 }
 function customResponseDone() {

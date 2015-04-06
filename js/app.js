@@ -414,7 +414,7 @@ function functionForCustomResponse() {
         alert("customResponse");
         var resp = $("#customresponse");
         var text = "" +
-        "val:  " + JSON.stringify(resp.val("")) +
+        "1. val:  " + JSON.stringify(resp.val("")) +
         "html: " + JSON.stringify(resp.html("")) +
         "text: " + JSON.stringify(resp.text(""));
         alert(text)

@@ -414,9 +414,9 @@ function functionForCustomResponse() {
         alert("customResponse");
         var resp = $("#customresponse");
         var text = "" +
-        "val:  " + resp.val("") +
-        "html: " + resp.html("") +
-        "text: " + resp.text("");
+        "val:  " + resp.val("").toString() +
+        "html: " + resp.html("").toString() +
+        "text: " + resp.text("").toString();
         alert(text)
         resp.attr("contenteditable", "");
         //if(Omlet.getIdentity().principal in myDoc.voters) {

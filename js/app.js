@@ -413,8 +413,8 @@ function functionForCustomResponse() {
     return function() {
         alert("customResponse");
         var resp = $("#customresponse");
-        var text = "" +
-        "1. val:  " + JSON.stringify(resp.val("")) +
+        var text = "hi..." +
+        "val:  " + JSON.stringify(resp.val("")) +
         "html: " + JSON.stringify(resp.html("")) +
         "text: " + JSON.stringify(resp.text(""));
         alert(text)

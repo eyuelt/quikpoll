@@ -404,11 +404,12 @@ function ShowQuestionForm() {
         $("#submitquestion"+i).fastClick(functionForResponse(i));
     }
     //Eyuel
-    $("#app").append($('<div class="poll_answer" id="#customresponse">Custom Response 2</div>'));
+    $("#app").append($('<div class="poll_answer" id="#customresponse">Custom Response</div>'));
     $("#customresponse").fastClick(functionForCustomResponse());
     $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
 }
 function functionForCustomResponse(response) {
+    alert("customResponse");
     return function() {
         $("#customresponse")[0].style.backgroundColor = "red";
         //if(Omlet.getIdentity().principal in myDoc.voters) {

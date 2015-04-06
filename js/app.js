@@ -297,7 +297,6 @@ function showJustPollResults() {
 // show the results after having voted
 function showPollResults(response) { 
     alert("showresults: " + response);
-    alert("yo: " + JSON.stringify(myDoc));
     var answer = myDoc.poll['response'+response];
     var answerLetter = String.fromCharCode(65 + response);
     var pollCounts = myDoc.pollCounts;
@@ -440,8 +439,13 @@ function customResponseDone() {
    // responses.push(text);
    // myDoc.poll["responses"] = JSON.stringify(responses); //
     documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity(), "newresponse":text }, function() {
-        showPollResults(response);
-        ReceiveUpdate();
+    alert("yo: " + JSON.stringify(myDoc));
+        documentApi.get(myDocId, function(doc) {
+    alert("yo1: " + JSON.stringify(myDoc));
+    alert("yo2: " + JSON.stringify(doc));
+            showPollResults(response);
+            ReceiveUpdate();
+        });
     });
 }
 

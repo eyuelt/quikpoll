@@ -427,7 +427,9 @@ function customResponseDone() {
     var response = myDoc.pollCounts.length;
     myDoc.pollCounts[response] = 10;
     myDoc.poll['response'+response] = "CUSTOM RESPONSE";//$("#customresponse").text();
-    //myDoc.poll['response'+response] = $("#customresponse").text("");
+    var responses = JSON.parse(myDoc.poll["responses"]);
+    responses.push("CUSTOM RESPONSE");
+    myDoc.poll["responses"] = JSON.stringify(responses);
     documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
     showPollResults(response);
 }

@@ -427,30 +427,14 @@ function functionForCustomResponse() {
             $("#customresponse").text("");
             $("#customresponse").attr("contenteditable", "");
             $("#customresponse").attr("onblur", "customResponseDone()");
-            $(function(){
-                 $("#customresponse").keypress(function (e) {
-                     if (e.keyCode == 13) {
-                         alert('You pressed enter!');
-                     }
-                 });
-            });
         }
     };
 }
 function customResponseDone() {
-    alert("customResponseDone");
     var text = $("#customresponse").text();
     var response = myDoc.pollCounts.length;
-   // myDoc.pollCounts[response] = 0; //
-   // myDoc.poll['response'+response] = text; //
-   // var responses = JSON.parse(myDoc.poll["responses"]);
-   // responses.push(text);
-   // myDoc.poll["responses"] = JSON.stringify(responses); //
     documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity(), "newresponse":text }, function() {
-        alert("yo: " + JSON.stringify(myDoc));
         documentApi.get(myDocId, function(doc) {
-            alert("yo1: " + JSON.stringify(myDoc));
-            alert("yo2: " + JSON.stringify(doc));
             showPollResults(response, doc);
             ReceiveUpdate();
         });

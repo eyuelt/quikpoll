@@ -417,16 +417,16 @@ function functionForCustomResponse() {
         alert("customResponse");
         $("#customresponse").text("");
         $("#customresponse").attr("contenteditable", "");
-        $("#customresponse").attr("onblur", "dothis()");
+        $("#customresponse").attr("onblur", "customResponseDone()");
         //}
     };
 }
-function dothis() {
-        alert("dothis");
-    //var num = myDoc.pollCounts.length;
-    //myDoc.poll['response'+num] = "CUSTOM RESPONSE";
-    //    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
-    //    showPollResults(response);
+function customResponseDone() {
+    alert("customResponseDone");
+    var response = myDoc.pollCounts.length;
+    myDoc.poll['response'+response] = $("#customresponse").text("");
+    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
+    showPollResults(response);
 }
 
 //show the poll creation form

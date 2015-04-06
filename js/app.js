@@ -432,7 +432,7 @@ function functionForCustomResponse() {
 }
 function customResponseDone() {
     alert("customResponseDone");
-    var text = "CUSTOM RESPONSE";
+    var text = $("#customresponse").text();
     var response = myDoc.pollCounts.length;
    // myDoc.pollCounts[response] = 0; //
    // myDoc.poll['response'+response] = text; //

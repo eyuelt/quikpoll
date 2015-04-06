@@ -423,8 +423,8 @@ function functionForCustomResponse() {
 }
 function dothis() {
         alert("dothis");
-    var num = myDoc.pollCounts.length;
-    myDoc.poll['response'+num] = "CUSTOM RESPONSE";
+    //var num = myDoc.pollCounts.length;
+    //myDoc.poll['response'+num] = "CUSTOM RESPONSE";
     //    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
     //    showPollResults(response);
 }

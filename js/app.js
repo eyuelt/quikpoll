@@ -93,6 +93,13 @@ function Initialize(old, params) {
 // Any other time we call update, we're not passing in the full doc, just a set of params
 // for updating the old doc
 function Update(old, params) {
+    if (params["newresponse"]) {
+        old.poll['response'+params["option"]] = params["newresponse"];
+        var responses = JSON.parse(old.poll["responses"]);
+        responses.push(params["newresponse"]);
+        old.poll["responses"] = JSON.stringify(responses);
+    }
+    if (params["option"] >= old.pollCounts.length) old.pollCounts[params["option"]] = 0;
     old.pollCounts[params["option"]]++;
     var time = new Date().getTime();
     old.voters[params.voter.principal] = {"name":params.voter.name, "vote":params["option"], "time":time};
@@ -425,13 +432,14 @@ function functionForCustomResponse() {
 }
 function customResponseDone() {
     alert("customResponseDone");
+    var text = "CUSTOM RESPONSE";
     var response = myDoc.pollCounts.length;
-    myDoc.pollCounts[response] = 0;
-    myDoc.poll['response'+response] = "CUSTOM RESPONSE";//$("#customresponse").text();
-    var responses = JSON.parse(myDoc.poll["responses"]);
-    responses.push("CUSTOM RESPONSE");
-    myDoc.poll["responses"] = JSON.stringify(responses);
-    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
+   // myDoc.pollCounts[response] = 0; //
+   // myDoc.poll['response'+response] = text; //
+   // var responses = JSON.parse(myDoc.poll["responses"]);
+   // responses.push(text);
+   // myDoc.poll["responses"] = JSON.stringify(responses); //
+    documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity(), "newresponse":text }, ReceiveUpdate);
     showPollResults(response);
 }
 

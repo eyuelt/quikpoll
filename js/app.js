@@ -409,7 +409,7 @@ function ShowQuestionForm() {
     $("#customresponse").fastClick(functionForCustomResponse());
     $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
 }
-function functionForCustomResponse(response) {
+function functionForCustomResponse() {
     return function() {
         alert("customResponse");
         $("#customresponse")[0].style.backgroundColor = "red";

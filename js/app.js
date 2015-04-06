@@ -290,6 +290,7 @@ function showJustPollResults() {
 // show the results after having voted
 function showPollResults(response) { 
     alert("showresults: " + response);
+    alert("yo: " + JSON.stringify(myDoc));
     var answer = myDoc.poll['response'+response];
     var answerLetter = String.fromCharCode(65 + response);
     var pollCounts = myDoc.pollCounts;
@@ -425,7 +426,7 @@ function functionForCustomResponse() {
 function customResponseDone() {
     alert("customResponseDone");
     var response = myDoc.pollCounts.length;
-    myDoc.pollCounts[response] = 10;
+    myDoc.pollCounts[response] = 0;
     myDoc.poll['response'+response] = "CUSTOM RESPONSE";//$("#customresponse").text();
     var responses = JSON.parse(myDoc.poll["responses"]);
     responses.push("CUSTOM RESPONSE");

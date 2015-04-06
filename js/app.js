@@ -424,7 +424,9 @@ function functionForCustomResponse() {
 function customResponseDone() {
     alert("customResponseDone");
     var response = myDoc.pollCounts.length;
+    myDoc.pollCounts[response] = 10;
     myDoc.poll['response'+response] = $("#customresponse").text("");
+    //myDoc.poll['response'+response] = $("#customresponse").text("");
     documentApi.update(myDocId, Update, { "option":response, "voter":Omlet.getIdentity() }, ReceiveUpdate);
     showPollResults(response);
 }

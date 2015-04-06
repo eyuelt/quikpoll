@@ -414,11 +414,10 @@ function functionForCustomResponse() {
         alert("customResponse");
         var resp = $("#customresponse");
         alert("1");
-        resp.val("");
+        resp.text("");
         alert("2");
         resp.html("");
         alert("3");
-        resp.text("");
         resp.attr("contenteditable", "");
         //if(Omlet.getIdentity().principal in myDoc.voters) {
         //    var voter = myDoc.voters[Omlet.getIdentity().principal];

@@ -402,11 +402,11 @@ function ShowQuestionForm() {
     for(var i = 0; i < myDoc.pollCounts.length; i++) {
         var letter = String.fromCharCode(65 + i);
         $("#app").append($('<div class="poll_answer" id="submitquestion'+i+'">'+letter+': ' + myDoc.poll['response'+i] + '</div>'));
-        $("#submitquestion"+i).fastClick(function(){alert("clicked a submitquestion button");}/*functionForResponse(i)*/);
+        $("#submitquestion"+i).fastClick(functionForResponse(i));
     }
     //Eyuel
-    $("#app").append($('<div class="poll_answer" id="customresponse">Custom Response</div>'));
-    $("#customresponse").fastClick(function(){alert("clicked a customresponse button");}/*functionForCustomResponse()*/);
+    $("#app").append($('<div class="poll_answer" id="customresponse" contenteditable>Custom Response</div>'));
+    $("#customresponse").fastClick(functionForCustomResponse());
     $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
 }
 function functionForCustomResponse() {

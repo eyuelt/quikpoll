@@ -297,7 +297,6 @@ function showJustPollResults() {
 // show the results after having voted
 function showPollResults(response, doc) { 
     var _myDoc = doc || myDoc;
-    alert("showresults: " + response);
     var answer = _myDoc.poll['response'+response];
     var answerLetter = String.fromCharCode(65 + response);
     var pollCounts = _myDoc.pollCounts;
@@ -423,7 +422,6 @@ function functionForCustomResponse() {
             var voter = myDoc.voters[Omlet.getIdentity().principal];
             showPollResults(voter.vote);
         } else {
-            alert("customResponse");
             $("#customresponse").text("");
             $("#customresponse").attr("contenteditable", "");
             $("#customresponse").attr("onblur", "customResponseDone()");

@@ -406,7 +406,7 @@ function ShowQuestionForm() {
     }
     //Eyuel
     $("#app").append($('<div class="poll_answer" id="customresponse" contenteditable>Custom Response</div>'));
-    $("#customresponse").fastClick(functionForCustomResponse());
+    //$("#customresponse").fastClick(functionForCustomResponse());
     $("#app").append('<img src="images/EGG-2.png" class="omlet_second"></img>');
 }
 function functionForCustomResponse() {

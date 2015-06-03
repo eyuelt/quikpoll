@@ -455,6 +455,7 @@ function ShowEmptyQuestionForm() {
 
 //this is the entry point to your app, and is called by Omlet when it has finished loading it's stuff
 Omlet.ready(function() {
+    alert(JSON.stringify(Omlet.scope));
     i18n.init(function(t) {
       $('.i18n-text').i18n();
       if (hasDocument()) {
